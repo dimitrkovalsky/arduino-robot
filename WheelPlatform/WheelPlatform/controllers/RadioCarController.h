@@ -10,27 +10,27 @@ class RadioCarController{
 	#pragma region Pins
 	// Pins ---------------------------------------------
 
-	const int SERVO_PIN = 12;
+	#define SERVO_PIN 12
 
-	const int ENA_PIN = 6;  // PWM ~ only !!!
-	const int IN1_PIN = 7;
-	const int IN2_PIN = 4;
+	#define ENA_PIN 6  // PWM ~ only !!!
+	#define IN1_PIN 2
+	#define IN2_PIN 3
 
-	const int IN3_PIN = 3;
-	const int IN4_PIN = 2;
-	const int ENB_PIN = 5;  // PWM ~ only !!!
+	#define IN3_PIN 4
+	#define IN4_PIN 5
+	#define ENB_PIN 7  // PWM ~ only !!!
 
-	const int LED_PIN = 13;
+	#define LED_PIN 13
 
 	//---------------------------------------------------
 	#pragma endregion Pins
 
-	static const char LEFT = 'L';
-	static const char RIGHT = 'R';
+	#define LEFT 'L'
+	#define RIGHT 'R'
 
-	static const char FORWARD = 'F';
-	static const char STOP = 'S';
-	static const char BACKWARD = 'B';
+	#define FORWARD 'F'
+	#define STOP 'S'
+	#define BACKWARD 'B'
 
 	Servo RobotSteeringServo;
 
@@ -39,21 +39,21 @@ class RadioCarController{
 	char Comand_bytes_array[ COMMAND_SIZE ] = { 'L', '0', '0', 'S', '0', '0' };
 
 	// 0 - Max right    180 - Max left
-	const int SERVO_ABSOLUTE_CENTER_ANGLE = 102;  // [0..180]  Degrees
+	#define SERVO_ABSOLUTE_CENTER_ANGLE 102  // [0..180]  Degrees
 
-	const int SERVO_MAX_LEFT_ANGLE_SHIFT_FROM_THE_CENTER = 54;  // Degrees
-	const int SERVO_MAX_RIGHT_ANGLE_SHIFT_FROM_THE_CENTER = 48;  // Degrees
+	#define SERVO_MAX_LEFT_ANGLE_SHIFT_FROM_THE_CENTER 54  // Degrees
+	#define SERVO_MAX_RIGHT_ANGLE_SHIFT_FROM_THE_CENTER 48  // Degrees
 
-	const int SERVO_ABSOLUTE_MIN_ANGLE =
+	static const int SERVO_ABSOLUTE_MIN_ANGLE =
 	SERVO_ABSOLUTE_CENTER_ANGLE -                 // Turn right
 	SERVO_MAX_RIGHT_ANGLE_SHIFT_FROM_THE_CENTER;  // = 102 - 48 = 54  Degrees
 
-	const int SERVO_ABSOLUTE_MAX_ANGLE =
+	static const int SERVO_ABSOLUTE_MAX_ANGLE =
 	SERVO_ABSOLUTE_CENTER_ANGLE +                // Turn left
 	SERVO_MAX_LEFT_ANGLE_SHIFT_FROM_THE_CENTER;  // = 102 + 54 = 156  Degrees
 
 	// MAX robot speed threshold
-	const int ABSOLUTE_MAX_SPEED = 255; // [0..255]
+	#define ABSOLUTE_MAX_SPEED 255 // [0..255]
 	
 	unsigned char I = 0;
 	bool An_error_has_occured = false;
