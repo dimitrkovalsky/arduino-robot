@@ -12,22 +12,15 @@ void RadioCarController::Setup(){
 
 	RobotSteeringServo.attach( SERVO_PIN );
 	RobotSteeringServo.write( SERVO_ABSOLUTE_CENTER_ANGLE );
-	
-	Serial.begin( 9600 );
 }
 
-void RadioCarController::Loop(){
-	
-	if ( Serial.available() > 0 ){
-		
-		Comand_bytes_array[I] = Serial.read();
-		I++;
-		
-		if( I == COMMAND_SIZE ){
-			I = 0;
-			Execute_command();
-		}
-	}
+
+
+void RadioCarController::Execute(char *command){
+
+	Comand_bytes_array = command;
+
+	Execute_command();
 }
 
 void RadioCarController::Execute_command()
@@ -82,14 +75,14 @@ unsigned char RadioCarController::TwoSymbolsToByte(char First_symbol, char Secon
 void RadioCarController::Turn(bool* An_error_has_occured_POINTER)
 {
 	unsigned char Input_turn_angle = TwoSymbolsToByte(
-	Comand_bytes_array[1],
-	Comand_bytes_array[2],
+	*(Comand_bytes_array + 2),
+	*(Comand_bytes_array + 3),
 	An_error_has_occured_POINTER
 	);
 	
 	unsigned long Servo_absolute_turn_angle;
 	
-	switch( Comand_bytes_array[0] )
+	switch( *(Comand_bytes_array + 1) )
 	{
 		case LEFT :
 		Servo_absolute_turn_angle = SERVO_ABSOLUTE_CENTER_ANGLE +
@@ -127,8 +120,9 @@ void RadioCarController::Turn(bool* An_error_has_occured_POINTER)
 void RadioCarController::Drive(bool* An_error_has_occured_POINTER)
 {
 	unsigned char Input_speed =
-	TwoSymbolsToByte( Comand_bytes_array[4],
-	Comand_bytes_array[5],
+	TwoSymbolsToByte( 
+	*(Comand_bytes_array + 5),
+	*(Comand_bytes_array + 6),
 	An_error_has_occured_POINTER );
 	
 	// Absolute speed [0..255]
@@ -140,7 +134,7 @@ void RadioCarController::Drive(bool* An_error_has_occured_POINTER)
 		Absolute_speed = ABSOLUTE_MAX_SPEED;
 	}
 
-	switch( Comand_bytes_array[ 3 ] )
+	switch( *(Comand_bytes_array + 4 ) )
 	{
 		case FORWARD :
 		// [0..255]

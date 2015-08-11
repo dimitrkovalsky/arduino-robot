@@ -173,6 +173,15 @@
     <Folder Include="src\arduino\variants\standard" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="controllers\CommandController.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="controllers\CommandController.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="controllers\HandController.cpp">
       <SubType>compile</SubType>
     </Compile>
