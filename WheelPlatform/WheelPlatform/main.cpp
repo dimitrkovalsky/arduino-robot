@@ -19,6 +19,7 @@
 
 #include <Arduino.h>
 #include "RadioCarController.h"
+#include "HandController.h"
 
 //Declared weak in Arduino.h to allow user redefinitions.
 int atexit(void (*func)()) { return 0; }
@@ -28,7 +29,8 @@ int atexit(void (*func)()) { return 0; }
 void initVariant() __attribute__((weak));
 void initVariant() { }
 
-RadioCarController RadioCar;
+//RadioCarController RadioCar;
+HandController Hand;
 
 int main(void)
 {
@@ -40,10 +42,14 @@ int main(void)
 	USBDevice.attach();
 #endif
 	
-	RadioCar.Setup();
+	
+	//RadioCar.Setup();
+	Hand.Setup();
     
 	for (;;) {
-		RadioCar.Loop();
+		//RadioCar.Loop();
+		Hand.Loop();
+
 		if (serialEventRun) serialEventRun();
 	}
         

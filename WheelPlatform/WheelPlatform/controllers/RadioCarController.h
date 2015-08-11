@@ -2,7 +2,7 @@
 #define __RADIOCARCONTROLLER_H__
 
 #include <Arduino.h>
-#include <Servo.h>
+#include <Servo/Servo.h>
 
 class RadioCarController{
 	//variables
