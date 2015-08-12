@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <Servo/Servo.h>
 #include "Config.h"
+#include "Parser.h"
 
 class RadioCarController{
 	//variables
@@ -59,19 +60,13 @@ class RadioCarController{
 	public:
 	
 	void Setup();
-	void Execute( char *command);
+	void Execute( char command[COMMAND_SIZE] );
 
 	private:
 	void Execute_command();
-	unsigned char OneSymbolToByte( char Symbol, bool* An_error_has_occured_POINTER );
+	
 	void Turn( bool* An_error_has_occured_POINTER );
 	void Drive( bool* An_error_has_occured_POINTER );
-	
-	unsigned char TwoSymbolsToByte(
-		char First_symbol,
-		char Second_symbol,
-		bool* An_error_has_occured_POINTER
-	);
 	
 	void LED_blink();
 	void LED_blink( unsigned int Number_of_blinks );

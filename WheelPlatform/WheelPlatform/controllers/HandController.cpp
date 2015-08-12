@@ -4,29 +4,27 @@
 void HandController::Setup(){
 	m_pwm.begin();
 	
-	m_pwm.setPWMFreq(50);  // Analog servos run at ~60 Hz updates
-}
-
-void HandController::Loop(){
-
+	m_pwm.setPWMFreq(60);  // Analog servos run at ~60 Hz updates
+	/*
 	SetPosition(0, 90);
-	delay(10000);
 
-	SetPosition(1, 90);
-	delay(10000);
+	SetPosition(1, 20);
 
-	SetPosition(2, 90);
-	delay(10000);
+	SetPosition(2, 50);
 
 	SetPosition(3, 90);
-	delay(10000);
 
 	SetPosition(4, 90);
-	delay(10000);
 
 	SetPosition(5, 90);
-	delay(10000);
+	*/
+}
 
+void HandController::Execute(char command[COMMAND_SIZE]){
+	
+	ComandBytesArray = command;
+
+	ExecuteCommand();
 }
 
 void HandController::SetPosition(int servoNumber, int degrees){
@@ -38,4 +36,60 @@ void HandController::SetPosition(int servoNumber, int degrees){
 	long pulselength = map(degrees, 0, 180, minValue, maxValue);
 
 	m_pwm.setPWM(pin, 0, pulselength);
+}
+
+void HandController::ExecuteCommand(){
+
+	unsigned char servoNumber = 0;
+	if(!TryGetServoNumber( &servoNumber )){
+		return;
+	}
+
+	unsigned char angle = 0;
+	if(!TryGetAngle( &angle )){
+		return;
+	}
+
+	m_logAngle = angle;
+	m_logNumber = servoNumber;
+
+	SetPosition( (int)servoNumber, (int)angle );
+}
+
+bool HandController::TryGetServoNumber(unsigned char *number){
+
+	if(ComandBytesArray[1] != 'N'){
+		return false;
+	}
+
+	bool error = false;
+	*number = Parser::TwoSymbolsToByte( (ComandBytesArray + 2), &error );
+
+	return !error;
+}
+
+bool HandController::TryGetAngle( unsigned char *angle ){
+	
+	if(ComandBytesArray[4] != 'A'){
+		return false;
+	}
+
+	bool error;
+	unsigned char input = Parser::TwoSymbolsToByte( (ComandBytesArray + 5), &error );
+
+	if(error){
+		return false;
+	}
+
+	*angle =  180 * input / 99 ;
+	//need to validate angle respect to the current servo
+
+	return true;
+}
+
+void HandController::Log()
+{
+	Serial.write(m_logNumber);
+	Serial.write("   ");
+	Serial.write(m_logAngle);
 }

@@ -3,7 +3,9 @@
 
 #include <Wire\Wire.h>
 #include <PWM\Adafruit_PWMServoDriver.h>
-
+#include "Config.h"
+#include "Parser.h"
+#include "HardwareSerial.h"
 
 class HandController
 {
@@ -11,6 +13,9 @@ class HandController
 	public:
 	protected:
 	private:
+	int m_logNumber = 7;
+	int m_logAngle = 89;
+
 
 	int m_handServos[6][3] = {
 		{0, 200, 510},
@@ -33,19 +38,22 @@ class HandController
 	//#define SERVOMIN  150 // this is the 'minimum' pulse length count (out of 4096)
 	//#define SERVOMAX  600 // this is the 'maximum' pulse length count (out of 4096)
 
-	// our servo # counter
-	uint8_t servonum = 0;
+
+	char *ComandBytesArray;
 
 	//functions
 	public:
 	void Setup();
-	void Loop();
+	void Execute(char command[COMMAND_SIZE]);
+	void Log();
 
 	protected:
 	private:
 
 	void SetPosition(int servoNumber, int degrees);
-
+	void ExecuteCommand();
+	bool TryGetServoNumber(byte *number);
+	bool TryGetAngle(unsigned char* angle);
 }; //HandController
 
 #endif //__HANDCONTROLLER_H__
