@@ -1,6 +1,7 @@
 #include "Parser.h"
 
 unsigned char Parser::OneSymbolToByte(char Symbol, bool* An_error_has_occured_POINTER){
+	
 	switch( Symbol )
 	{
 		case '0' : return 0;
@@ -24,4 +25,10 @@ unsigned char Parser::TwoSymbolsToByte(char twoBytes[2], bool* An_error_has_occu
 
 	return 10 * OneSymbolToByte( twoBytes[0], An_error_has_occured_POINTER ) +
 				OneSymbolToByte( twoBytes[1], An_error_has_occured_POINTER );
+}
+
+unsigned char Parser::TwoSymbolsToByte(char first, char second, bool* An_error_has_occured_POINTER)
+{
+	return 10 * OneSymbolToByte( first, An_error_has_occured_POINTER ) +
+	OneSymbolToByte( second, An_error_has_occured_POINTER );
 }

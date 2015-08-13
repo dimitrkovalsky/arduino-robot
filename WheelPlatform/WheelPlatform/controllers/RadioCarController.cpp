@@ -1,7 +1,6 @@
 #include "RadioCarController.h"
 
 void RadioCarController::Setup(){
-	pinMode( LED_PIN, OUTPUT );
 	
 	pinMode( ENA_PIN, OUTPUT );  // PWM ~ only !!!
 	pinMode( IN1_PIN, OUTPUT );
@@ -29,26 +28,13 @@ void RadioCarController::Execute_command()
 	Drive( & An_error_has_occured );
 }
 
-void RadioCarController::LED_blink()
-{
-	digitalWrite( LED_PIN, HIGH );
-	delay( 500 );
-	digitalWrite( LED_PIN, LOW );
-	delay( 500 );
-}
 
-void RadioCarController::LED_blink(unsigned int Number_of_blinks)
-{
-	for( unsigned int I = 0; I < Number_of_blinks; I++ )
-	{
-		LED_blink();
-	}
-}
 
 void RadioCarController::Turn(bool* An_error_has_occured_POINTER)
 {
 	unsigned char Input_turn_angle = Parser::TwoSymbolsToByte(
-		(Comand_bytes_array + 2),
+		Comand_bytes_array[2],
+		Comand_bytes_array[3],
 		An_error_has_occured_POINTER
 	);
 	
@@ -92,7 +78,8 @@ void RadioCarController::Turn(bool* An_error_has_occured_POINTER)
 void RadioCarController::Drive(bool* An_error_has_occured_POINTER)
 {
 	unsigned char Input_speed = Parser::TwoSymbolsToByte( 
-		(Comand_bytes_array + 5),
+		Comand_bytes_array[5],
+		Comand_bytes_array[6],
 		An_error_has_occured_POINTER 
 	);
 	

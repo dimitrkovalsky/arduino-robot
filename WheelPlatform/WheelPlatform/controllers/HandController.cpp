@@ -44,12 +44,12 @@ void HandController::ExecuteCommand(){
 	if(!TryGetServoNumber( &servoNumber )){
 		return;
 	}
-
+	
 	unsigned char angle = 0;
 	if(!TryGetAngle( &angle )){
 		return;
 	}
-
+	
 	m_logAngle = angle;
 	m_logNumber = servoNumber;
 
@@ -58,30 +58,15 @@ void HandController::ExecuteCommand(){
 
 bool HandController::TryGetServoNumber(unsigned char *number){
 
-	if(ComandBytesArray[1] != 'N'){
-		return false;
-	}
-
-	bool error = false;
-	*number = Parser::TwoSymbolsToByte( (ComandBytesArray + 2), &error );
-
-	return !error;
+	*number = ComandBytesArray[1];
+	
+	return true;
 }
 
 bool HandController::TryGetAngle( unsigned char *angle ){
 	
-	if(ComandBytesArray[4] != 'A'){
-		return false;
-	}
-
-	bool error;
-	unsigned char input = Parser::TwoSymbolsToByte( (ComandBytesArray + 5), &error );
-
-	if(error){
-		return false;
-	}
-
-	*angle =  180 * input / 99 ;
+	*angle = ComandBytesArray[2];
+	
 	//need to validate angle respect to the current servo
 
 	return true;

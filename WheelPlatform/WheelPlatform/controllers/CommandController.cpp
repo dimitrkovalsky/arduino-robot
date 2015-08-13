@@ -9,8 +9,6 @@ void CommandController::Setup(){
 
 void CommandController::Loop(){
 
-	//Hand.Log();
-	
 	if ( Serial.available() > 0 ){
 		
 		Comand_bytes_array[m_size] = Serial.read();

@@ -22,8 +22,6 @@ class RadioCarController{
 	#define IN4_PIN 5
 	#define ENB_PIN 7  // PWM ~ only !!!
 
-	#define LED_PIN 13
-
 	//---------------------------------------------------
 	#pragma endregion Pins
 
@@ -67,10 +65,6 @@ class RadioCarController{
 	
 	void Turn( bool* An_error_has_occured_POINTER );
 	void Drive( bool* An_error_has_occured_POINTER );
-	
-	void LED_blink();
-	void LED_blink( unsigned int Number_of_blinks );
-	
 }; //RadioCarController
 
 #endif //__RADIOCARCONTROLLER_H__
