@@ -9,9 +9,17 @@ void CommandController::Setup(){
 
 void CommandController::Loop(){
 
-	if ( Serial.available() > 0 ){
+	//Hand.Log();
+
+	while ( Serial.available() > 0 ){
 		
-		Comand_bytes_array[m_size] = Serial.read();
+		int cmdPart = Serial.read();
+
+		//if(m_size == 0 && (cmdPart != 'M' || cmdPart != 'W')){
+			//return;
+		//}
+
+		Comand_bytes_array[m_size] = cmdPart;
 		m_size++;
 		
 		if( m_size == COMMAND_SIZE ){
@@ -25,12 +33,10 @@ void CommandController::ExecuteCommand( bool* error ){
 	
 	switch (Comand_bytes_array[0]){
 		case 'W':
-			RadioCar.Execute( Comand_bytes_array );
-			Serial.write("Got wheels command");
+		RadioCar.Execute( Comand_bytes_array );
 		break;
-		case 'H':
-			Hand.Execute( Comand_bytes_array );
-			Serial.write("Got hands command");
+		case 'M':
+		Hand.Execute( Comand_bytes_array );
 		break;
 		default:
 		* error = true;

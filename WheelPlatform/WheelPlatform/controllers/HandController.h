@@ -18,12 +18,12 @@ class HandController
 
 
 	int m_handServos[6][3] = {
-		{0, 200, 510},
-		{3, 200, 510},
-		{7, 200, 510},
-		{8, 200, 510},
-		{12, 200, 510},
-		{15, 200, 510}
+		{0, 160, 510},
+		{3, 160, 510},
+		{7, 160, 490},
+		{8, 150, 510},
+		{12, 150, 490},
+		{15, 150, 500}
 	};
 	#define	ServoPinIndex 0
 	#define ServoMinIndex 1
@@ -52,8 +52,6 @@ class HandController
 
 	void SetPosition(int servoNumber, int degrees);
 	void ExecuteCommand();
-	bool TryGetServoNumber(byte *number);
-	bool TryGetAngle(unsigned char* angle);
 }; //HandController
 
 #endif //__HANDCONTROLLER_H__
