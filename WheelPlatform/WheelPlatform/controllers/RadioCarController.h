@@ -2,7 +2,9 @@
 #define __RADIOCARCONTROLLER_H__
 
 #include <Arduino.h>
-#include <Servo.h>
+#include <Servo/Servo.h>
+#include "Config.h"
+#include "Parser.h"
 
 class RadioCarController{
 	//variables
@@ -20,8 +22,6 @@ class RadioCarController{
 	#define IN4_PIN 5
 	#define ENB_PIN 7  // PWM ~ only !!!
 
-	#define LED_PIN 13
-
 	//---------------------------------------------------
 	#pragma endregion Pins
 
@@ -33,10 +33,6 @@ class RadioCarController{
 	#define BACKWARD 'B'
 
 	Servo RobotSteeringServo;
-
-	//const unsigned char COMMAND_SIZE = 6;
-	#define COMMAND_SIZE 6
-	char Comand_bytes_array[ COMMAND_SIZE ] = { 'L', '0', '0', 'S', '0', '0' };
 
 	// 0 - Max right    180 - Max left
 	#define SERVO_ABSOLUTE_CENTER_ANGLE 102  // [0..180]  Degrees
@@ -55,30 +51,20 @@ class RadioCarController{
 	// MAX robot speed threshold
 	#define ABSOLUTE_MAX_SPEED 255 // [0..255]
 	
-	unsigned char I = 0;
-	bool An_error_has_occured = false;
+	char *Comand_bytes_array;
 	
+	bool An_error_has_occured = false;
 	
 	public:
 	
 	void Setup();
-	void Loop();
-	
+	void Execute( char command[COMMAND_SIZE] );
+
 	private:
 	void Execute_command();
-	unsigned char OneSymbolToByte( char Symbol, bool* An_error_has_occured_POINTER );
+	
 	void Turn( bool* An_error_has_occured_POINTER );
 	void Drive( bool* An_error_has_occured_POINTER );
-	
-	unsigned char TwoSymbolsToByte( 
-		char First_symbol,
-		char Second_symbol,
-		bool* An_error_has_occured_POINTER 
-	);
-	
-	void LED_blink();
-	void LED_blink( unsigned int Number_of_blinks );
-
 }; //RadioCarController
 
 #endif //__RADIOCARCONTROLLER_H__
