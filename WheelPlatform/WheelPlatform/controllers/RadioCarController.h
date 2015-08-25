@@ -51,14 +51,14 @@ class RadioCarController{
 	// MAX robot speed threshold
 	#define ABSOLUTE_MAX_SPEED 255 // [0..255]
 	
-	char *Comand_bytes_array;
+	const char *Comand_bytes_array;
 	
 	bool An_error_has_occured = false;
 	
 	public:
 	
 	void Setup();
-	void Execute( char command[COMMAND_SIZE] );
+	void Execute( const char command[COMMAND_SIZE] );
 
 	private:
 	void Execute_command();

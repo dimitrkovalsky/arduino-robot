@@ -15,7 +15,7 @@ void RadioCarController::Setup(){
 
 
 
-void RadioCarController::Execute(char command[COMMAND_SIZE]){
+void RadioCarController::Execute( const char command[COMMAND_SIZE]){
 
 	Comand_bytes_array = command;
 

@@ -7,7 +7,7 @@ void HandController::Setup(){
 	m_pwm.setPWMFreq(50);  // Analog servos run at ~60 Hz updates
 }
 
-void HandController::Execute(char command[COMMAND_SIZE]){
+void HandController::Execute(const char command[COMMAND_SIZE]){
 	
 	ComandBytesArray = command;
 
@@ -16,19 +16,29 @@ void HandController::Execute(char command[COMMAND_SIZE]){
 
 void HandController::SetPosition(int servoNumber, int degrees){
 
-	int pin = m_handServos[servoNumber][ServoPinIndex];
-	int minValue = m_handServos[servoNumber][ServoMinIndex];
-	int maxValue = m_handServos[servoNumber][ServoMaxIndex];
+	int servoCount =  m_servoLinks[servoNumber][0];
 
-	long pulselength = map(degrees, 0, 180, minValue, maxValue);
+	//Serial.println(servoNumber);
+	//Serial.println(servoCount);
 
-	m_pwm.setPWM(pin, 0, pulselength);
+	for (int i = 1; i <= servoCount; i++){
+
+		int acualNumber = m_servoLinks[servoNumber][i];
+		
+		int pin = m_handServos[acualNumber][ServoPinIndex];
+		int minValue = m_handServos[acualNumber][ServoMinIndex];
+		int maxValue = m_handServos[acualNumber][ServoMaxIndex];
+
+		long pulselength = map(degrees, 0, 180, minValue, maxValue);
+
+		m_pwm.setPWM(pin, 0, pulselength);
+	}
 }
 
 void HandController::ExecuteCommand(){
 
-	int servoNumber = ComandBytesArray[1];
-	int angle = ComandBytesArray[2];
+	int servoNumber = ComandBytesArray[0];
+	int angle = ComandBytesArray[1];
 
 	m_logAngle = angle;
 

@@ -17,10 +17,19 @@ class HandController
 	int m_logAngle = 89;
 
 
+	byte m_servoLinks[6][3] = {
+		{0},
+		{1, 0},
+		{2, 1, 2},
+		{1, 3},
+		{1, 4},
+		{1, 5},
+	};
+
 	int m_handServos[6][3] = {
 		{0, 160, 510},
-		{3, 160, 510},
-		{7, 160, 490},
+		{3, 160, 500},
+		{7, 160, 510},
 		{8, 150, 510},
 		{12, 150, 490},
 		{15, 150, 500}
@@ -39,12 +48,12 @@ class HandController
 	//#define SERVOMAX  600 // this is the 'maximum' pulse length count (out of 4096)
 
 
-	char *ComandBytesArray;
+	const char *ComandBytesArray;
 
 	//functions
 	public:
 	void Setup();
-	void Execute(char command[COMMAND_SIZE]);
+	void Execute(const char command[COMMAND_SIZE]);
 	void Log();
 
 	protected:

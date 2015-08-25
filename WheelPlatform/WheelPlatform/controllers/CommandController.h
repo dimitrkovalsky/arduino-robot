@@ -2,6 +2,8 @@
 #define __COMMANDCONTROLLER_H__
 
 #include "HardwareSerial.h"
+#include "proxies/WakeUpSerial.h"
+#include "proxies/ReciveEventHandler.h"
 
 #include "RadioCarController.h"
 #include "HandController.h"
@@ -10,6 +12,8 @@
 class CommandController
 {
 	private:
+	WakeUpSerial* m_wakeUpSerial;
+
 	RadioCarController RadioCar;
 	HandController Hand;
 
@@ -22,11 +26,13 @@ class CommandController
 	unsigned char m_size = 0;
 
 	public:
-	void Setup();
+	CommandController();
+
 	void Loop();
+	void RaiseSerialReciveEvent();
 
 	private:
-	void ExecuteCommand( bool* hasError );
+	void ReciveCommandHandler(const Object* sender, const ReciveEventArgs* args);
 };
 
 #endif

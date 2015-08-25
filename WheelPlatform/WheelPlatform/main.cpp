@@ -17,7 +17,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include <Arduino.h>
+#include "Arduino.h"
 #include "CommandController.h"
 
 //Declared weak in Arduino.h to allow user redefinitions.
@@ -28,7 +28,19 @@ int atexit(void (*func)()) { return 0; }
 void initVariant() __attribute__((weak));
 void initVariant() { }
 
-CommandController Command;
+CommandController* Command;
+
+/*
+SerialEvent occurs whenever a new data comes in the
+hardware serial RX.  This routine is run between each
+time loop() runs, so using delay inside loop can delay
+response.  Multiple bytes of data may be available.
+*/
+void serialEvent() {
+	if(Command){
+		Command->RaiseSerialReciveEvent();
+	}
+}
 
 int main(void)
 {
@@ -39,12 +51,12 @@ int main(void)
 	#if defined(USBCON)
 	USBDevice.attach();
 	#endif
-
-	Command.Setup();
 	
-	for (;;) {
+	Command = new CommandController();
 
-		Command.Loop();
+
+	for (;;) {
+		Command->Loop();
 		if (serialEventRun) serialEventRun();
 	}
 	

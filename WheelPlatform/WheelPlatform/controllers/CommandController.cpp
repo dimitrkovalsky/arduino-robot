@@ -1,47 +1,45 @@
 #include "CommandController.h"
 
-void CommandController::Setup(){
-	Serial.begin( 9600 );
+CommandController::CommandController(){
+
+	ReciveEventHandler<CommandController>* handlerDelegate = new ReciveEventHandler<CommandController>(
+		this,
+		&CommandController::ReciveCommandHandler
+	);
+
+	m_wakeUpSerial = new WakeUpSerial(Serial, 9600);
+	m_wakeUpSerial->addRxPacketListener(handlerDelegate);
 
 	RadioCar.Setup();
 	Hand.Setup();
 }
 
-void CommandController::Loop(){
+void CommandController::ReciveCommandHandler(const Object* sender, const ReciveEventArgs* args){
+	const WakePacketRx* rxp = args->GetPacket();
+	WakePacketTx* txp;
+	char err = ERR_PA;
 
-	//Hand.Log();
-
-	while ( Serial.available() > 0 ){
-		
-		int cmdPart = Serial.read();
-
-		//if(m_size == 0 && (cmdPart != 'M' || cmdPart != 'W')){
-			//return;
-		//}
-
-		Comand_bytes_array[m_size] = cmdPart;
-		m_size++;
-		
-		if( m_size == COMMAND_SIZE ){
-			m_size = 0;
-			ExecuteCommand(	&HasError );
+	switch (rxp->getCommand()) {
+		case 77 :{
+			const char* recivedData = rxp->getData();
+			Hand.Execute( recivedData );
+			//m_wakeUpSerial->sendAnswer(rxp, recivedData, strlen(recivedData));
 		}
-	}
-}
-
-void CommandController::ExecuteCommand( bool* error ){
-	
-	switch (Comand_bytes_array[0]){
-		case 'W':
-		RadioCar.Execute( Comand_bytes_array );
 		break;
-		case 'M':
-		Hand.Execute( Comand_bytes_array );
+		case 87 :
+			RadioCar.Execute( rxp->getData() );
+			//m_wakeUpSerial->sendAnswer(rxp, &err, 1);
 		break;
 		default:
-		* error = true;
+			m_wakeUpSerial->sendAnswer(rxp, &err, 1);
 		break;
 	}
+
+}
+void CommandController::RaiseSerialReciveEvent(){
+	m_wakeUpSerial->keepRxOn();
 }
 
-
+void CommandController::Loop(){
+	m_wakeUpSerial->processing();
+}
