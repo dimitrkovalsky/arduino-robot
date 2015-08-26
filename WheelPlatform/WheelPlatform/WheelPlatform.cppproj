@@ -161,6 +161,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="controllers" />
+    <Folder Include="core" />
+    <Folder Include="proxies" />
     <Folder Include="tools" />
     <Folder Include="src" />
     <Folder Include="src\arduino" />
@@ -197,7 +199,52 @@
     <Compile Include="controllers\RadioCarController.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="core\Object.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\ISerial.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\ReciveEventHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\ReciveEventArgs.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\BaseReciveEventHandler.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\SLIPProtocol.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\WakePacket.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\WakePacket.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\WakePacketRx.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\WakePacketRx.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\WakePacketTx.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\WakePacketTx.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\WakeProtocol.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\WakeUpSerial.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="proxies\WakeUpSerial.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\arduino\cores\arduino\Arduino.h">
