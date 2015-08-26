@@ -33,14 +33,14 @@ void RadioCarController::Execute_command()
 void RadioCarController::Turn(bool* An_error_has_occured_POINTER)
 {
 	unsigned char Input_turn_angle = Parser::TwoSymbolsToByte(
+		Comand_bytes_array[1],
 		Comand_bytes_array[2],
-		Comand_bytes_array[3],
 		An_error_has_occured_POINTER
 	);
 	
 	unsigned long Servo_absolute_turn_angle;
 	
-	switch( Comand_bytes_array[1] )
+	switch( Comand_bytes_array[0] )
 	{
 		case LEFT :
 		Servo_absolute_turn_angle = SERVO_ABSOLUTE_CENTER_ANGLE +
@@ -78,8 +78,8 @@ void RadioCarController::Turn(bool* An_error_has_occured_POINTER)
 void RadioCarController::Drive(bool* An_error_has_occured_POINTER)
 {
 	unsigned char Input_speed = Parser::TwoSymbolsToByte( 
+		Comand_bytes_array[4],
 		Comand_bytes_array[5],
-		Comand_bytes_array[6],
 		An_error_has_occured_POINTER 
 	);
 	
@@ -92,7 +92,7 @@ void RadioCarController::Drive(bool* An_error_has_occured_POINTER)
 		Absolute_speed = ABSOLUTE_MAX_SPEED;
 	}
 
-	switch( Comand_bytes_array[4] )
+	switch( Comand_bytes_array[3] )
 	{
 		case FORWARD :
 		// [0..255]
