@@ -14,13 +14,9 @@ class RadioCarController{
 
 	#define SERVO_PIN 12
 
-	#define ENA_PIN 6  // PWM ~ only !!!
+	#define ENA_PIN 3  // PWM ~ only !!!
 	#define IN1_PIN 2
-	#define IN2_PIN 3
-
-	#define IN3_PIN 4
-	#define IN4_PIN 5
-	#define ENB_PIN 7  // PWM ~ only !!!
+	#define IN2_PIN 4
 
 	//---------------------------------------------------
 	#pragma endregion Pins
