@@ -5,9 +5,6 @@ void RadioCarController::Setup(){
 	pinMode( ENA_PIN, OUTPUT );  // PWM ~ only !!!
 	pinMode( IN1_PIN, OUTPUT );
 	pinMode( IN2_PIN, OUTPUT );
-	pinMode( IN3_PIN, OUTPUT );
-	pinMode( IN4_PIN, OUTPUT );
-	pinMode( ENB_PIN, OUTPUT );  // PWM ~ only !!!
 
 	RobotSteeringServo.attach( SERVO_PIN );
 	RobotSteeringServo.write( SERVO_ABSOLUTE_CENTER_ANGLE );
@@ -99,9 +96,6 @@ void RadioCarController::Drive(bool* An_error_has_occured_POINTER)
 		analogWrite( ENA_PIN, (int)Absolute_speed );  // PWM - Absolute speed [0..255]
 		digitalWrite( IN1_PIN, LOW );
 		digitalWrite( IN2_PIN, HIGH );
-		digitalWrite( IN3_PIN, HIGH );
-		digitalWrite( IN4_PIN, LOW );
-		analogWrite( ENB_PIN, (int)Absolute_speed );  // PWM - Absolute speed [0..255]
 		break;
 		
 		case STOP :
@@ -109,9 +103,6 @@ void RadioCarController::Drive(bool* An_error_has_occured_POINTER)
 		analogWrite( ENA_PIN, 0 );  // PWM - Absolute speed [0..255]
 		digitalWrite( IN1_PIN, LOW );
 		digitalWrite( IN2_PIN, LOW );
-		digitalWrite( IN3_PIN, LOW );
-		digitalWrite( IN4_PIN, LOW );
-		analogWrite( ENB_PIN, 0 );  // PWM - Absolute speed [0..255]
 		break;
 		
 		case BACKWARD :
@@ -119,9 +110,6 @@ void RadioCarController::Drive(bool* An_error_has_occured_POINTER)
 		analogWrite( ENA_PIN, (int)Absolute_speed );  // PWM - Absolute speed [0..255]
 		digitalWrite( IN1_PIN, HIGH );
 		digitalWrite( IN2_PIN, LOW );
-		digitalWrite( IN3_PIN, LOW );
-		digitalWrite( IN4_PIN, HIGH );
-		analogWrite( ENB_PIN, (int)Absolute_speed );  // PWM - Absolute speed [0..255]
 		break;
 		
 		default :  // Error
@@ -129,9 +117,6 @@ void RadioCarController::Drive(bool* An_error_has_occured_POINTER)
 		analogWrite( ENA_PIN, 0 );  // PWM - Absolute speed [0..255]
 		digitalWrite( IN1_PIN, LOW );
 		digitalWrite( IN2_PIN, LOW );
-		digitalWrite( IN3_PIN, LOW );
-		digitalWrite( IN4_PIN, LOW );
-		analogWrite( ENB_PIN, 0 );  // PWM - Absolute speed [0..255]
 		
 		* An_error_has_occured_POINTER = true;  // Error
 	}
